@@ -12,5 +12,7 @@ migratedown:
 	migrate -path db/migration/ -database postgres://root:root@localhost:5432/simple_bank?sslmode=disable down
 test:
 	go test -v -cover -short ./...
+server:
+	go run main.go
 
-.PHONY: dbup dbdown createdb dropdb migrateup migratedown test
+.PHONY: dbup dbdown createdb dropdb migrateup migratedown test server
