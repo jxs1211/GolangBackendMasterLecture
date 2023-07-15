@@ -10,12 +10,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-const (
-	driver         = "postgres"
-	databaseSource = "postgresql://root:root@localhost:5432/simple_bank?sslmode=disable"
-	serverAddress  = "0.0.0.0:8090"
-)
-
 func main() {
 	viper.SetConfigName("app")
 	viper.SetConfigType("env")

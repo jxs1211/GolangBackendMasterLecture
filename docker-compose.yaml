@@ -9,10 +9,21 @@ services:
     image: postgres:12-alpine
     container_name: postgres
     environment:
+      POSTGRES_DB: simple_bank
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
     ports:
     - 5432:5432
+  simplebank:
+    networks:
+      wave-net:
+        aliases:
+          - simplebank
+    image: simplebank:local
+    container_name: simplebank
+    ports:
+    - 8090:8090
+
 networks:
   wave-net:
     external: true
