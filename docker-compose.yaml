@@ -2,10 +2,6 @@ version: '3.1'
 
 services:
   postgres:
-    networks:
-      wave-net:
-        aliases:
-          - postgres
     image: postgres:12-alpine
     container_name: postgres
     environment:
@@ -15,17 +11,23 @@ services:
     ports:
     - 5432:5432
   simplebank:
-    networks:
-      wave-net:
-        aliases:
-          - simplebank
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+    - DATABASESOURCE=postgresql://root:root@postgres:5432/simple_bank?sslmode=disable
     container_name: simplebank
+    depends_on:
+    - postgres
     ports:
     - 8090:8090
-
-networks:
-  wave-net:
-    external: true
+    entrypoint:
+    - /app/wait-for
+    - postgres:5432
+    - --
+    - /app/start.sh
+    command:
+    - /app/main
+    # depends_on:
+    #   postgres:
+    #     condition: service_healthy

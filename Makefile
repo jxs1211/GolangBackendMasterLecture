@@ -31,10 +31,6 @@ test:
 	go test -v -cover -short ./...
 
 server:
-	docker build -t simplebank:latest .
-	docker run --name simplebank \
-		--network bank-network \
-		-p 8090:8090 \
-		simplebank:latest
+	docker compose up
 
 .PHONY: network postgres mysql dbup dbdown createdb dropdb migrateup migratedown test server
