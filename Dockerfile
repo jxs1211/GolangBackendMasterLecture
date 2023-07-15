@@ -12,7 +12,6 @@ WORKDIR /app
 COPY --from=builder /app/main .
 COPY app.env .
 COPY sqlc.yaml .
-COPY start.sh .
 COPY db/migration ./db/migration
 
 EXPOSE 8090

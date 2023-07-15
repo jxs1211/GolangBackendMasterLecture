@@ -19,7 +19,9 @@ services:
       wave-net:
         aliases:
           - simplebank
-    image: simplebank:local
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: simplebank
     ports:
     - 8090:8090
