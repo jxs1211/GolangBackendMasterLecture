@@ -7,7 +7,7 @@ on:
     branches: [ "master", "ft/**", "feat/**", "feature/**" ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     env:
       MYSQL_DB: testdb
@@ -57,6 +57,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+      - uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.27.3' # default is latest stable
+        id: install 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
@@ -68,5 +72,14 @@ jobs:
           REPOSITORY: simplebank
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:latest .
+          docker push -a $REGISTRY/$REPOSITORY
+      - name: update aws key to kubeconfig
+        run: aws eks update-kubeconfig --name simple-bank --region us-west-2
+      - name: deploy app into cluster
+        run: |
+          kubectl apply -f eks/aws-auth.yaml
+          kubectl apply -f eks/deployment.yaml
+          kubectl apply -f eks/ingress-nginx-controller.yaml
+          kubectl apply -f eks/ingress.yaml
+          kubectl apply -f eks/service.yaml
