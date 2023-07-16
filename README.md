@@ -78,6 +78,11 @@ This course is designed with a lot of details, so that everyone, even with very 
   - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI
 - Lecture #33: [Register a domain name & set up A-record using Route53](https://www.youtube.com/watch?v=-JF2ukmW3i8&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=33)
 - Lecture #34: [How to use Ingress to route traffics to different services in Kubernetes](https://www.youtube.com/watch?v=lBrqP6FkNsU&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=34)
+  - watch logs of ingress-nginx-controller container
+    ```sh
+    k logs -f ingress-nginx-controller-5fcb5746fc-267gh -n ingress-nginx
+    172.31.45.233 - - [16/Jul/2023:09:37:27 +0000] "GET /accounts/1 HTTP/1.1" 200 95 "-" "PostmanRuntime/7.32.3" 268 0.126 [default-simple-bank-api-service-80] [] 172.31.44.91:8090 95 0.126 200 95228b5243a40ceceec8f8775f3b09fb
+    ```
 - Lecture #35: [Automatic issue TLS certificates in Kubernetes with Let's Encrypt](https://www.youtube.com/watch?v=nU4FTjrgSKI&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=35)
 - Lecture #36: [Automatic deploy to Kubernetes with Github Action](https://www.youtube.com/watch?v=GVY-zze0V_U&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=36)
 
