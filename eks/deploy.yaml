@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-bank-api-deployment
+  labels:
+    app: simple-bank-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-bank-api
+  template:
+    metadata:
+      labels:
+        app: simple-bank-api
+    spec:
+      containers:
+      - name: simple-bank-api
+        image: 793172687192.dkr.ecr.us-east-1.amazonaws.com/simplebank:e9d0896b406fb034a86809e70a766145ec22c01b
+        imagePullPolicy: Always
+        env:
+        - name: DATABASESOURCE
+          value: postgresql://root:root@simple-bank.cj79kvmbv0ge.us-east-1.rds.amazonaws.com:5432/simple_bank?sslmode=disable
+        ports:
+        - containerPort: 8080
